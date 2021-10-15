@@ -1,5 +1,7 @@
-from Drivers.Driver import Driver
-from Drivers.adc import ADC_Driver
+import sys
+
+from Drivers import Driver
+from adc import ADC_Driver
 
 class UVDriver(Driver):
   """
@@ -7,6 +9,8 @@ class UVDriver(Driver):
   """
   adc = ADC_Driver.ADC()
   uv_channel = 1  #The channel on the ADC that th UV sensor is connected to
+  max = 3.3
+  min = 0.0
   
   def __init__(self):
     super().__init__("UVDriver")
@@ -15,4 +19,9 @@ class UVDriver(Driver):
     """
     This function calls the read function of the ADC with the channel for the uv sensor
     """
-    return self.adc.read(self.uv_channel)
+    try:
+      uv_data = self.adc.read(self.uv_channel)
+      if (uv_data > min) and (uv_data < max):
+       return self.adc.read(self.uv_channel)
+    except:
+      return max + 10

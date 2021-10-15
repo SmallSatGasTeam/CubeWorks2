@@ -102,16 +102,16 @@ class TTNCData:
 		mode = int1tohex(missionMode)
 		reboot_count = int2tohex(readBootCount())
 		#No need for await on these, since they're not sleeping
-		try:
-			boombox_uv_Int = self.UVDriver.read()
-			boombox_uv = float4tohex(boombox_uv_Int)
-			if (boombox_uv_Int < boombox_uvMin) or (boombox_uv_Int > boombox_uvMax):
-				print("boombox_uv: ", boombox_uv, "boombox_uv_Int: ", boombox_uv_Int)
-				raise unexpectedValue
-		except Exception as e:
-			# add redundant UVDriver TRY/EXCEPT
-			# if no drivers can be called, continue with exception
-			print ("failed to return boombox_uv. Exception: ", repr(e), 
+		# UVDriver
+		boombox_uv_Int = self.UVDriver.read()
+		boombox_uv = float4tohex(boombox_uv_Int)
+		if (boombox_uv_Int < boombox_uvMin) or (boombox_uv_Int > boombox_uvMax):
+			print("boombox_uv: ", boombox_uv, "boombox_uv_Int: ", boombox_uv_Int)
+				
+		# add redundant UVDriver TRY/EXCEPT
+		# if no drivers can be called, continue with exception
+		else:
+			print ("failed to return boombox_uv.") 
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 			boombox_uv = float4tohex(boombox_uvMax + 1)
 
