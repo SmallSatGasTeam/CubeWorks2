@@ -1,6 +1,6 @@
 # CubeWorks
 Flight software for the GASPACS mission written in Python, with some compents in c. 
-
+THIS IS THE TESTING FOR THE NEW VERSON OF FLIGHT CODE, IT IS NOT CLEARED FOR FLIGHT!!!
 ## Introduction
 The Get Away Special Passive Attitude Control Satellite (GASPACS) is an experimental 1U cubesat in development by Utah State University's Get Away Special team.  The purpose of the experiment is to test the viability of an inflatable aero-stabilization boom deployable component in Low Earth Orbit (LEO).  This repository contains CubeWorks, the flight software for the satellite. The CubeWorks software module is designed to run on a Raspberry Pi Zero W running Raspbian lite os as its operating system.
 
