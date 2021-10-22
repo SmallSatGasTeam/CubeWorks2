@@ -1,4 +1,4 @@
-# CubeWorks
+# CubeWorks2
 Flight software for the GASPACS mission written in Python, with some compents in c. 
 THIS IS THE TESTING FOR THE NEW VERSON OF FLIGHT CODE, IT IS NOT CLEARED FOR FLIGHT!!!
 ## Introduction
