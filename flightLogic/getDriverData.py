@@ -112,7 +112,7 @@ class TTNCData:
 		# if no drivers can be called, continue with exception
 		else:
 			print ("failed to return boombox_uv.") 
-			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
+			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno
 			boombox_uv = float4tohex(boombox_uvMax + 1)
 
 		try:
