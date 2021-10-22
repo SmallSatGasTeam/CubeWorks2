@@ -1,7 +1,7 @@
 import sys
 
 from Drivers import Driver
-from adc import ADC_Driver
+from Drivers.adc import ADC_Driver
 
 class UVDriver(Driver):
   """
