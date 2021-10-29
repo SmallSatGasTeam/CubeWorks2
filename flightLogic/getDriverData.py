@@ -48,8 +48,6 @@ SP_Minus_CurrentMin = 0.0
 SP_Minus_CurrentMax = 1.8
 boombox_uvMin = 0.0
 boombox_uvMax = 3.3
-accelMin = -16
-accelMax = 16
 EPS3V3CurrentMin = 0.0 
 EPS3V3CurrentMax = 3.0
 EPS5VCurrentMin = 0.0
@@ -397,17 +395,15 @@ class DeployData():
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 			boombox_uv = float4tohex(boombox_uvMax + 1)
 
-		try:
-			accelX, accelY, accelZ = self.Accelerometer.read()
-			if ((accelX < accelMin) or (accelX > accelMax) or (accelY < accelMin) or (accelY > accelMax) or (accelZ < accelMin) or (accelZ > accelMax)):
-				print("accelX: ", accelX, "accelY: ", accelY, "accelZ: ", accelZ)
-				raise unexpectedValue
-		except Exception as e:
+		
+		accelX, accelY, accelZ = self.Accelerometer.read()
+		if ((accelX < accelMin) or (accelX > accelMax) or (accelY < accelMin) or (accelY > accelMax) or (accelZ < accelMin) or (accelZ > accelMax)):
+			print("accelX: ", accelX, "accelY: ", accelY, "accelZ: ", accelZ)
+			raise unexpectedValue
+		
 			# add redundant UVDriver try/except
 			# if no UVDrivers work, continue with exception
-			print("Failed to pull Accelerometer. Exception: ", repr(e), 
-			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
-			accelX, accelY, accelZ = accelMax + 1, accelMax + 1, accelMax + 1
+			# accelX, accelY, accelZ = accelMax + 1, accelMax + 1, accelMax + 1
 
 		accelX = float4tohex(accelX)
 		accelY = float4tohex(accelY)
