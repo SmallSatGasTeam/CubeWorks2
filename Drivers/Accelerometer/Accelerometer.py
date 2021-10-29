@@ -24,5 +24,18 @@ class Accelerometer(Driver):
     super().__init__("Accelerometer")
     
   def read(self):
-      accel = adafruit_lsm303_accel.LSM303_Accel(self.i2c)
-      return accel.acceleration
+    accelMin = -16
+    accelMax = 16
+    returnDummy = False
+    accel = adafruit_lsm303_accel.LSM303_Accel(self.i2c)
+    try:
+      accel.acceleration
+    except:
+      print("Failed to pull Accelerometer.")
+      returnDummy = True
+    #   print("Failed to pull Accelerometer. Exception: ", repr(e), 
+    # getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
+    if returnDummy:
+      accelX, accelY, accelZ = accelMax + 1, accelMax + 1, accelMax + 1
+      return accelX, accelY, accelZ
+    return accel.acceleration
