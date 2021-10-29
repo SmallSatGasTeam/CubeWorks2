@@ -88,19 +88,21 @@ class TTNCData:
 
 	async def getData(self, missionMode):
 		packet = ''
+
 		# gets all TTNC data - need to pass in missionMode when calling it
-		try:
-			timestamp = int4tohex(self.RTC.readSeconds())
-			if (self.RTC.readSeconds() < RTCMin) or (self.RTC.readSeconds() > RTCMax):
-				raise unexpectedValue
-		except Exception as e:
-			print("Failure to create timestamp. Exception: ", repr(e), 
+		timestamp = int4tohex(self.RTC.readSeconds())
+		if (self.RTC.readSeconds() > RTCMin) and (self.RTC.readSeconds() < RTCMax):
+			print("timestamp: ", timestamp)
+			
+		else:
+			print("Failure to create timestamp. Exception: ",
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 			timestamp = int4tohex(0000000000)
 		
 		packetType = int1tohex(1)
 		mode = int1tohex(missionMode)
 		reboot_count = int2tohex(readBootCount())
+
 		#No need for await on these, since they're not sleeping
 		# UVDriver
 		boombox_uv_Int = self.UVDriver.read()
@@ -119,7 +121,7 @@ class TTNCData:
 			print("SP_X_Plus_Temp: ", SP_X_Plus_Temp, "SP_Z_Plus_Temp: ", SP_Z_Plus_Temp)
 		else:
 			print("unexpected value for SP_X_Plus_Temp: ", SP_X_Plus_Temp, 
-			" or SP_Z_Plus_Temp: ", SP_Z_Plus_Temp, " Exception: ", 
+			" or SP_Z_Plus_Temp: ", SP_Z_Plus_Temp, ". Exception: ", 
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 
 		piTempInt = self.CpuTempSensor.read()
@@ -127,7 +129,7 @@ class TTNCData:
 		if (piTempInt > piTempMin) and (piTempInt < piTempMax):
 			print("piTempInt: ", piTempInt,"piTemp: ", piTemp)
 		else:
-			print("unexpected value for piTempInt: ", piTempInt, " Exception: ", 
+			print("unexpected value for piTempInt: ", piTempInt, ". Exception: ", 
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 
 		try:
