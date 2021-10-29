@@ -109,8 +109,8 @@ class TTNCData:
 			print("boombox_uv: ", boombox_uv, "boombox_uv_Int: ", boombox_uv_Int)
 				
 		else:
-			print ("failed to return boombox_uv.") 
-			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno
+			print ("failed to return boombox_uv. Exception: ", 
+			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 			boombox_uv = float4tohex(boombox_uvMax + 1)
 
 		SP_X_Plus_Temp, SP_Z_Plus_Temp = self.TempSensor.read() 
@@ -118,25 +118,17 @@ class TTNCData:
 		 (SP_Z_Plus_Temp > SP_Plus_TempMin) and (SP_Z_Plus_Temp < SP_Plus_TempMax)):
 			print("SP_X_Plus_Temp: ", SP_X_Plus_Temp, "SP_Z_Plus_Temp: ", SP_Z_Plus_Temp)
 		else:
-			print("unexpected value for SP_X_Plus_Temp: ", SP_X_Plus_Temp)
-			print("unexpected value for SP_Z_Plus_Temp: ", SP_Z_Plus_Temp)
-
-		# add redundant TempSensor TRY/EXCEPT
-		# if no drivers can be called, continue with exception
-		print("Failed to retrieve temp sensor. Exception: ", repr(e), 
-		getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
-		SP_X_Plus_Temp = SP_Plus_TempMax + 1
-		SP_Z_Plus_Temp = SP_Plus_TempMax + 1
-
-		SP_X_Plus_Temp = float4tohex(SP_X_Plus_Temp)
-		SP_Z_Plus_Temp = float4tohex(SP_Z_Plus_Temp)
+			print("unexpected value for SP_X_Plus_Temp: ", SP_X_Plus_Temp, 
+			" or SP_Z_Plus_Temp: ", SP_Z_Plus_Temp, " Exception: ", 
+			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 
 		piTempInt = self.CpuTempSensor.read()
 		piTemp = float4tohex(piTempInt)
 		if (piTempInt > piTempMin) and (piTempInt < piTempMax):
 			print("piTempInt: ", piTempInt,"piTemp: ", piTemp)
 		else:
-			print("unexpected value for piTempInt: ", piTempInt)
+			print("unexpected value for piTempInt: ", piTempInt, " Exception: ", 
+			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 
 		try:
 			EPSMCUTempInt = self.EPS.getMCUTemp()
