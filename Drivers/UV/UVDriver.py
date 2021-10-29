@@ -23,5 +23,7 @@ class UVDriver(Driver):
       uv_data = self.adc.read(self.uv_channel)
       if (uv_data > min) and (uv_data < max):
        return self.adc.read(self.uv_channel)
+      else:
+        return max + 10
     except:
       return max + 10

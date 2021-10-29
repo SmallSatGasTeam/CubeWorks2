@@ -113,34 +113,30 @@ class TTNCData:
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno
 			boombox_uv = float4tohex(boombox_uvMax + 1)
 
-		try:
-			SP_X_Plus_Temp, SP_Z_Plus_Temp = self.TempSensor.read() 
-			if ((SP_X_Plus_Temp < SP_Plus_TempMin) or (SP_X_Plus_Temp > SP_Plus_TempMax) or
-			 (SP_Z_Plus_Temp < SP_Plus_TempMin) or (SP_Z_Plus_Temp > SP_Plus_TempMax)):
-				raise unexpectedValue
-		except Exception as e:
-			# add redundant TempSensor TRY/EXCEPT
-			# if no drivers can be called, continue with exception
-			print("Failed to retrieve temp sensor. Exception: ", repr(e), 
-			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
-			SP_X_Plus_Temp = SP_Plus_TempMax + 1
-			SP_Z_Plus_Temp = SP_Plus_TempMax + 1
+		SP_X_Plus_Temp, SP_Z_Plus_Temp = self.TempSensor.read() 
+		if ((SP_X_Plus_Temp > SP_Plus_TempMin) and (SP_X_Plus_Temp < SP_Plus_TempMax) and
+		 (SP_Z_Plus_Temp > SP_Plus_TempMin) and (SP_Z_Plus_Temp < SP_Plus_TempMax)):
+			print("SP_X_Plus_Temp: ", SP_X_Plus_Temp, "SP_Z_Plus_Temp: ", SP_Z_Plus_Temp)
+		else:
+			print("unexpected value for SP_X_Plus_Temp: ", SP_X_Plus_Temp)
+			print("unexpected value for SP_Z_Plus_Temp: ", SP_Z_Plus_Temp)
+
+		# add redundant TempSensor TRY/EXCEPT
+		# if no drivers can be called, continue with exception
+		print("Failed to retrieve temp sensor. Exception: ", repr(e), 
+		getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
+		SP_X_Plus_Temp = SP_Plus_TempMax + 1
+		SP_Z_Plus_Temp = SP_Plus_TempMax + 1
 
 		SP_X_Plus_Temp = float4tohex(SP_X_Plus_Temp)
 		SP_Z_Plus_Temp = float4tohex(SP_Z_Plus_Temp)
 
-		try:
-			piTempInt = self.CpuTempSensor.read()
-			piTemp = float4tohex(piTempInt)
-			if (piTempInt < piTempMin) or (piTempInt > piTempMax):
-				print("piTempInt: ", piTempInt,"piTemp: ", piTemp)
-				raise unexpectedValue
-		except Exception as e:
-			# add redundant CpuTempSensor TRY/EXCEPT
-			# if no drivers can be called, continue with exception
-			print("Failed to retrieve cpuTempSensor. Exception: ", repr(e), 
-			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
-			piTemp = float4tohex(piTempMax + 1)
+		piTempInt = self.CpuTempSensor.read()
+		piTemp = float4tohex(piTempInt)
+		if (piTempInt > piTempMin) and (piTempInt < piTempMax):
+			print("piTempInt: ", piTempInt,"piTemp: ", piTemp)
+		else:
+			print("unexpected value for piTempInt: ", piTempInt)
 
 		try:
 			EPSMCUTempInt = self.EPS.getMCUTemp()
