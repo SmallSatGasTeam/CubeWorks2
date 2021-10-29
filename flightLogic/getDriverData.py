@@ -130,17 +130,13 @@ class TTNCData:
 			print("unexpected value for piTempInt: ", piTempInt, " Exception: ", 
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
 
-		try:
-			EPSMCUTempInt = self.EPS.getMCUTemp()
-			EPSMCUTemp = float4tohex(EPSMCUTempInt)
-			if ((EPSMCUTempInt < EPSMCUMin) or (EPSMCUTempInt > EPSMCUMax)):
-				print("unexpected value eps mcu temp: ", EPSMCUTempInt)
-				print(EPSMCUTemp)
-				raise unexpectedValue
-		except Exception as e:
-			print("failed to retrieve EPSMCUTemp. Exception: ", repr(e), 
+		EPSMCUTempInt = self.EPS.getMCUTemp()
+		EPSMCUTemp = float4tohex(EPSMCUTempInt)
+		if ((EPSMCUTempInt > EPSMCUMin) and (EPSMCUTempInt < EPSMCUMax)):
+			print("EPSMCUTempInt: ", EPSMCUTempInt)
+		else:
+			print("unxpected value for EPSMCUTemp: ", EPSMCUTemp, ". Exception: ", 
 			getframeinfo(currentframe()).filename, getframeinfo(currentframe()).lineno)
-			EPSMCUTemp = float4tohex(EPSMCUMax + 1)
 
 		try:
 			Cell1TempInt = self.EPS.getCell1Temp()
